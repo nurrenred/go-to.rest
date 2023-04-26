@@ -7,13 +7,14 @@
     <meta name="description" content="{{ meta_description }}">
  <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel='stylesheet'  href='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css' >
+
 <!-- Google Fonts -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600">
 
+
+
 <!-- Custom CSS -->
 <link rel="stylesheet" type="text/css" href="assets/css/app.min.css">
-
 
 
 </head>
@@ -26,29 +27,112 @@
 
         {% include "_html/_base/_includes/_footer.html" %}
     </div>
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 
-<!-- Latest compiled JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script src="assets/js/app.min.js"></script>
 
 
-    <script src="assets/js/app.min.js"></script>
+<script>
+  $('.search-cat').each(function() {
+    const _this = $(this),
+        selectOption = _this.find('option'),
+        selectOptionLength = selectOption.length,
+        selectedOption = selectOption.filter(':selected'),
+        duration = 450;
+
+    _this.hide();
+    _this.wrap('<div class="select"></div>');
+    $('<div>', {
+        class: 'new-select',
+        text: _this.children('option:disabled').text()
+    }).insertAfter(_this);
+
+    const selectHead = _this.next('.new-select');
+    $('<div>', {
+        class: 'new-select__list'
+    }).insertAfter(selectHead);
+
+    const selectList = selectHead.next('.new-select__list');
+    for (let i = 1; i < selectOptionLength; i++) {
+        $('<div>', {
+            class: 'new-select__item',
+            html: $('<span>', {
+                text: selectOption.eq(i).text()
+            })
+        })
+        .attr('data-value', selectOption.eq(i).val())
+        .appendTo(selectList);
+    }
+
+    const selectItem = selectList.find('.new-select__item');
+    selectList.slideUp(0);
+
+
+    selectHead.text(selectOption.eq(0).text());
+    selectOption.eq(0).attr('selected', true);
+
+    selectHead.on('click', function() {
+        if ( !$(this).hasClass('on') ) {
+            $(this).addClass('on');
+            selectList.slideDown(duration);
+
+            selectItem.on('click', function() {
+                let chooseItem = $(this).data('value');
+
+                $('select').val(chooseItem).attr('selected', 'selected');
+                selectHead.text( $(this).find('span').text() );
+
+                selectList.slideUp(duration);
+                selectHead.removeClass('on');
+            });
+
+        } else {
+            $(this).removeClass('on');
+            selectList.slideUp(duration);
+        }
+    });
+});
+
+</script>
+
+
+
+
+
     <script>
         $('.navbar-toggler').on('click', function() {
             $('.navbar-nav').toggleClass('show');
             });
 
     </script>
-  <script>
 
-    $(document).ready(function(){
-      // Инициализируем Chosen на элементе select
-      $('.atr_select').chosen();
-    });
-  </script>
+
+
+<script>
+  var select = document.querySelector(".new-select");
+  var hiddenField = document.getElementsByName("post_type")[0];
+  select.addEventListener("click", function() {
+      this.nextElementSibling.style.display = "block";
+  });
+  var selectItems = document.querySelectorAll(".new-select__item");
+  for (var i = 0; i < selectItems.length; i++) {
+      selectItems[i].addEventListener("click", function() {
+          select.textContent = this.textContent;
+          hiddenField.value = this.dataset.value;
+          this.parentNode.style.display = "none";
+      });
+  }
+</script>
+
+
+
+
+
+
+
   <script>
 
 $(document).ready(function(){
@@ -62,6 +146,7 @@ $(document).ready(function(){
 
 
   </script>
+
 
 
 
