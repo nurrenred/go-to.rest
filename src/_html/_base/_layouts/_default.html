@@ -36,6 +36,29 @@
 
 
 <script>
+   $(document).ready(function() {
+  $('.dropdown-submenu > a').on("click", function(e) {
+    var submenu = $(this).next('ul');
+    $('.dropdown-submenu > ul').not(submenu).removeClass('show');
+    submenu.toggleClass('show');
+    e.stopPropagation();
+    e.preventDefault();
+  });
+
+  $('.navbar-toggle').on("click", function(e) {
+    $('.dropdown-submenu > ul').removeClass('show');
+  });
+});
+
+  </script>
+
+<script>
+    document.getElementById("navbar-toggle").setAttribute("aria-expanded", "false");
+
+</script>
+
+
+<script>
   $('.search-cat').each(function() {
     const _this = $(this),
         selectOption = _this.find('option'),
@@ -102,15 +125,6 @@
 
 
 
-    <script>
-        $('.navbar-toggler').on('click', function() {
-            $('.navbar-nav').toggleClass('show');
-            });
-
-    </script>
-
-
-
 <script>
   var select = document.querySelector(".new-select");
   var hiddenField = document.getElementsByName("post_type")[0];
@@ -133,19 +147,7 @@
 
 
 
-  <script>
 
-$(document).ready(function(){
-    $('.dropdown-submenu a').on("click", function(e){
-        $(this).next('ul').toggle();
-        e.stopPropagation();
-        e.preventDefault();
-    });
-});
-
-
-
-  </script>
 
 
 
